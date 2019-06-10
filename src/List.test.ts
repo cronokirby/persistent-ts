@@ -6,14 +6,14 @@ test('List.empty isEmpty', () => {
 });
 
 test('List.singleton is not Empty', () => {
-    const singleton = List.singleton(1);
+    const singleton = List.from(1);
     expect(singleton.isEmpty()).toBe(false);
 });
 
 test('List.equals', () => {
     const empty: List<number> = List.empty();
-    const single1 = List.singleton(1);
-    const single2 = List.singleton(2);
+    const single1 = List.from(1);
+    const single2 = List.from(2);
     expect(single1.equals(empty)).toBe(false);
     expect(single1.equals(single2)).toBe(false);
     expect(empty.equals(empty)).toBe(true);
@@ -21,7 +21,8 @@ test('List.equals', () => {
 });
 
 test('List.prepend', () => {
-    const single1 = List.singleton(1);
-    expect(List.empty().prepend(1).equals(single1)).toBe(true);
+    const single1 = List.from(1);
+    const prepend1 = List.empty().prepend(1);
+    expect(prepend1.equals(single1)).toBe(true);
     expect(single1.prepend(1).equals(single1)).toBe(false);
-})
+});

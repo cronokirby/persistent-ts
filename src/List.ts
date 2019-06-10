@@ -6,12 +6,15 @@ class List<T> {
     private constructor(private readonly _node: Node<T>) {}
 
     public static empty<T>(): List<T> {
-        return new List({ empty: true });
+        return new List(EMPTY_NODE as Node<T>);
     }
 
-    public static singleton<T>(value: T): List<T> {
-        const next = EMPTY_NODE as Node<T>;
-        return new List({ empty: false, value, next });
+    public static from<T>(...values: T[]): List<T> {
+        let ret = List.empty<T>();
+        for (let i = values.length - 1; i >= 0; --i) {
+            ret = ret.prepend(values[i]);
+        }
+        return ret;
     }
 
     public isEmpty(): boolean {
