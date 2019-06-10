@@ -34,3 +34,13 @@ test('List is iterable', () => {
     expect(Array.from(List.empty())).toEqual([]);
     expect(List.from(...list).equals(list)).toBe(true);
 });
+
+test('List.head works', () => {
+    expect(List.empty().head()).toBe(null);
+    expect(List.from(1).head()).toBe(1);
+});
+
+test('List.tail works', () => {
+    const empty = List.empty();
+    expect(empty.tail().equals(empty)).toBe(true);
+});

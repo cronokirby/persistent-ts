@@ -25,6 +25,14 @@ class List<T> implements Iterable<T> {
         return new List({ empty: false, value, next: this._node });
     }
 
+    public head(): T | null {
+        return this._node.empty ? null : this._node.value;
+    }
+
+    public tail(): List<T> {
+        return this._node.empty ? this : new List(this._node.next);
+    }
+
     public *[Symbol.iterator]() {
         let node = this._node;
         while (!node.empty) {
