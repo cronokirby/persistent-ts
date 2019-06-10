@@ -4,7 +4,8 @@
   "description": "Persistent data structures for TypeScript.",
   "main": "index.ts",
   "scripts": {
-    "test": "test",
+    "lint": "eslint src/**",
+    "test": "jest",
     "prettier:check": "prettier --parser typescript --list-different \"src/**/*.{ts,tsx}\""
   },
   "repository": {
@@ -24,6 +25,9 @@
   "homepage": "https://github.com/cronokirby/persistent-ts#readme",
   "devDependencies": {
     "@types/jest": "^24.0.13",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
+    "eslint": "^5.16.0",
     "jest": "^24.8.0",
     "prettier": "^1.18.2",
     "ts-jest": "^24.0.2",

@@ -1,3 +1,7 @@
-export function increment(a: number) {
-     return a + 1;
+interface Foo {
+    a: number;
+}
+
+export function increment(a: number): number {
+    return a + 1;
 }
