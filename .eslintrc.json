@@ -10,13 +10,6 @@
         "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-        "@typescript-eslint/no-parameter-properties": {
-            "allows": [
-                "public",
-                "private",
-                "protected",
-                "readonly"
-            ]
-        }
+        "@typescript-eslint/no-parameter-properties": 0
     }
 }
