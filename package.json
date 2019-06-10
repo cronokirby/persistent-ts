@@ -1,0 +1,24 @@
+{
+  "name": "persistent-ts",
+  "version": "0.1.0",
+  "description": "Persistent data structures for TypeScript.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cronokirby/persistent-ts.git"
+  },
+  "keywords": [
+    "persistent",
+    "functional",
+    "typescript"
+  ],
+  "author": "Lúcás Meier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cronokirby/persistent-ts/issues"
+  },
+  "homepage": "https://github.com/cronokirby/persistent-ts#readme"
+}
