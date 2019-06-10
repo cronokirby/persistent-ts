@@ -2,7 +2,7 @@ type Node<T> = { empty: true } | { empty: false; value: T; next: Node<T> };
 // We can share a single empty node between all lists.
 const EMPTY_NODE = { empty: true };
 
-class List<T> {
+class List<T> implements Iterable<T> {
     private constructor(private readonly _node: Node<T>) {}
 
     public static empty<T>(): List<T> {
@@ -23,6 +23,14 @@ class List<T> {
 
     public prepend(value: T): List<T> {
         return new List({ empty: false, value, next: this._node });
+    }
+
+    public *[Symbol.iterator]() {
+        let node = this._node;
+        while (!node.empty) {
+            yield node.value;
+            node = node.next;
+        }
     }
 
     public equals(that: List<T>): boolean {
