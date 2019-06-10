@@ -6,14 +6,14 @@ test('List.empty isEmpty', () => {
 });
 
 test('List.singleton is not Empty', () => {
-    const singleton = List.from(1);
+    const singleton = List.of(1);
     expect(singleton.isEmpty()).toBe(false);
 });
 
 test('List.equals works', () => {
     const empty: List<number> = List.empty();
-    const single1 = List.from(1);
-    const single2 = List.from(2);
+    const single1 = List.of(1);
+    const single2 = List.of(2);
     expect(single1.equals(empty)).toBe(false);
     expect(single1.equals(single2)).toBe(false);
     expect(empty.equals(empty)).toBe(true);
@@ -21,7 +21,7 @@ test('List.equals works', () => {
 });
 
 test('List.prepend works', () => {
-    const single1 = List.from(1);
+    const single1 = List.of(1);
     const prepend1 = List.empty().prepend(1);
     expect(prepend1.equals(single1)).toBe(true);
     expect(single1.prepend(1).equals(single1)).toBe(false);
@@ -29,15 +29,15 @@ test('List.prepend works', () => {
 
 test('List is iterable', () => {
     const array = [1, 2, 3];
-    const list = List.from(...array);
+    const list = List.of(...array);
     expect(Array.from(list)).toEqual(array);
     expect(Array.from(List.empty())).toEqual([]);
-    expect(List.from(...list).equals(list)).toBe(true);
+    expect(List.of(...list).equals(list)).toBe(true);
 });
 
 test('List.head works', () => {
     expect(List.empty().head()).toBe(null);
-    expect(List.from(1).head()).toBe(1);
+    expect(List.of(1).head()).toBe(1);
 });
 
 test('List.tail works', () => {

@@ -9,7 +9,7 @@ class List<T> implements Iterable<T> {
         return new List(EMPTY_NODE as Node<T>);
     }
 
-    public static from<T>(...values: T[]): List<T> {
+    public static of<T>(...values: T[]): List<T> {
         let ret = List.empty<T>();
         for (let i = values.length - 1; i >= 0; --i) {
             ret = ret.prepend(values[i]);
