@@ -19,3 +19,9 @@ test('List.equals', () => {
     expect(empty.equals(empty)).toBe(true);
     expect(single1.equals(single1)).toBe(true);
 });
+
+test('List.prepend', () => {
+    const single1 = List.singleton(1);
+    expect(List.empty().prepend(1).equals(single1)).toBe(true);
+    expect(single1.prepend(1).equals(single1)).toBe(false);
+})

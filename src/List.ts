@@ -18,6 +18,10 @@ class List<T> {
         return this._node.empty;
     }
 
+    public prepend(value: T): List<T> {
+        return new List({ empty: false, value, next: this._node });
+    }
+
     public equals(that: List<T>): boolean {
         let thisNode = this._node;
         let thatNode = that._node;
