@@ -4,7 +4,8 @@
   "description": "Persistent data structures for TypeScript.",
   "main": "index.ts",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "prettier:check": "prettier --parser typescript --list-different \"src/**/*.{ts,tsx}\""
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,22 @@
   "bugs": {
     "url": "https://github.com/cronokirby/persistent-ts/issues"
   },
-  "homepage": "https://github.com/cronokirby/persistent-ts#readme"
+  "homepage": "https://github.com/cronokirby/persistent-ts#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "jest": "^24.8.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.1"
+  },
+  "jest": {
+    "transform": {
+      ".ts": "ts-jest"
+    },
+    "testRegex": "\\.test.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
+  }
 }
