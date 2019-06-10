@@ -17,5 +17,17 @@ class List<T> {
     public isEmpty(): boolean {
         return this._node.empty;
     }
+
+    public equals(that: List<T>): boolean {
+        let thisNode = this._node;
+        let thatNode = that._node;
+        while (!thisNode.empty) {
+            if (thatNode.empty) return false;
+            if (thisNode.value !== thatNode.value) return false;
+            thisNode = thisNode.next;
+            thatNode = thatNode.next;
+        }
+        return thatNode.empty;
+    }
 }
 export default List;
