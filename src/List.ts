@@ -76,6 +76,24 @@ class List<T> implements Iterable<T> {
         return this._node.empty ? this : new List(this._node.next);
     }
 
+    /**
+     * Return a list with `amount` elements removed from the front.
+     *
+     * If `amount` is greater than or equal to the size of the list,
+     * an empty list is returned.
+     *
+     * `l.drop(1)` is always equal to `l.tail()`.
+     *
+     * @param amount the number of elements to drop
+     */
+    public drop(amount: number): List<T> {
+        let list: List<T> = this;
+        for (let i = 0; i < amount; ++i) {
+            list = list.tail();
+        }
+        return list;
+    }
+
     public *[Symbol.iterator]() {
         let node = this._node;
         while (!node.empty) {

@@ -11,7 +11,7 @@ test('List.singleton is not Empty', () => {
 });
 
 test('List.equals works', () => {
-    const empty: List<number> = List.empty();
+    const empty = List.empty<number>();
     const single1 = List.of(1);
     const single2 = List.of(2);
     expect(single1.equals(empty)).toBe(false);
@@ -43,4 +43,13 @@ test('List.head works', () => {
 test('List.tail works', () => {
     const empty = List.empty();
     expect(empty.tail().equals(empty)).toBe(true);
+});
+
+test('List.drop works', () => {
+    const empty = List.empty<number>();
+    expect(empty.drop(0).equals(empty)).toBe(true);
+    expect(empty.drop(1).equals(empty)).toBe(true);
+    const single = List.of(1, 2, 3);
+    expect(single.drop(3).equals(empty)).toBe(true);
+    expect(single.drop(1).equals(List.of(2, 3))).toBe(true);
 });
