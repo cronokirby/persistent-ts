@@ -77,6 +77,39 @@ class List<T> implements Iterable<T> {
     }
 
     /**
+     * Take a certain number of elements from the front of a List.
+     * 
+     * If the amount is 0, and empty list is returned.
+     * 
+     * If the list has less than the amount taken, the entire list is taken.
+     * 
+     * @param amount the number of elements to take from the front of the list
+     */
+    public take(amount: number): List<T> {
+        if (amount === 0 || this._node.empty) return List.empty();
+        const base: Node<T> = {
+            empty: false,
+            value: this._node.value,
+            next: EMPTY_NODE as Node<T>,
+        };
+        let latest = base;
+        let list = this.tail();
+        for (let i = 1; i < amount; ++i) {
+            // We check specifically against empty in case a value is null inside a list
+            if (list.isEmpty()) break;
+            const next: Node<T> = {
+                empty: false,
+                value: list.head() as T,
+                next: EMPTY_NODE as Node<T>,
+            };
+            latest.next = next;
+            latest = next;
+            list = list.tail();
+        }
+        return new List(base);
+    }
+
+    /**
      * Return a list with `amount` elements removed from the front.
      *
      * If `amount` is greater than or equal to the size of the list,

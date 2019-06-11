@@ -45,11 +45,20 @@ test('List.tail works', () => {
     expect(empty.tail().equals(empty)).toBe(true);
 });
 
+test('List.take works', () => {
+    const empty = List.empty<number>();
+    const simple = List.of(1, 2, 3);
+    expect(simple.take(0).equals(empty)).toBe(true);
+    expect(simple.take(0).equals(simple)).toBe(false);
+    expect(simple.take(3).equals(simple)).toBe(true);
+    expect(simple.take(1).equals(List.of(1))).toBe(true);
+});
+
 test('List.drop works', () => {
     const empty = List.empty<number>();
     expect(empty.drop(0).equals(empty)).toBe(true);
     expect(empty.drop(1).equals(empty)).toBe(true);
-    const single = List.of(1, 2, 3);
-    expect(single.drop(3).equals(empty)).toBe(true);
-    expect(single.drop(1).equals(List.of(2, 3))).toBe(true);
+    const simple = List.of(1, 2, 3);
+    expect(simple.drop(3).equals(empty)).toBe(true);
+    expect(simple.drop(1).equals(List.of(2, 3))).toBe(true);
 });
