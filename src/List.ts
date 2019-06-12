@@ -13,14 +13,14 @@ class List<T> implements Iterable<T> {
     private constructor(private readonly _node: Node<T>) {}
 
     /**
-     * Create a new empty list.
+     * O(1) Create a new empty list.
      */
     public static empty<T>(): List<T> {
         return new List(EMPTY_NODE as Node<T>);
     }
 
     /**
-     * Create a list from an array of values.
+     * O(N) Create a list from an array of values.
      *
      * @param values an array of values the list will contain, in the same order
      */
@@ -42,7 +42,7 @@ class List<T> implements Iterable<T> {
     }
 
     /**
-     * Add a new value to the front of the list.
+     * O(1) Add a new value to the front of the list.
      *
      * @param value the value to add to the front of the list
      */
@@ -51,7 +51,7 @@ class List<T> implements Iterable<T> {
     }
 
     /**
-     * Get the value at the front of the list, if it exists.
+     * O(1) Get the value at the front of the list, if it exists.
      *
      * This function will return null if `isEmpty()` returns
      * true, or if the value at the front of the list happens to be
@@ -64,7 +64,7 @@ class List<T> implements Iterable<T> {
     }
 
     /**
-     * Return a list containing the values past the head of the list.
+     * O(1) Return a list containing the values past the head of the list.
      *
      * For example: `List.of(1, 2).tail()` gives `List.of(2)`.
      *
@@ -77,7 +77,7 @@ class List<T> implements Iterable<T> {
     }
 
     /**
-     * Take a certain number of elements from the front of a List.
+     * O(amount) Take a certain number of elements from the front of a List.
      *
      * If the amount is 0, and empty list is returned.
      *
@@ -108,7 +108,7 @@ class List<T> implements Iterable<T> {
     }
 
     /**
-     * Return a list with `amount` elements removed from the front.
+     * O(amount) Return a list with `amount` elements removed from the front.
      *
      * If `amount` is greater than or equal to the size of the list,
      * an empty list is returned.
@@ -134,7 +134,7 @@ class List<T> implements Iterable<T> {
     }
 
     /**
-     * Test whether or not a list is logically equal to another.
+     * O(N) Test whether or not a list is logically equal to another.
      *
      * This returns true if the lists have the same size, and each element in a given
      * position is `===` to the element in the same position in the other list.
