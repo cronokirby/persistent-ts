@@ -78,11 +78,11 @@ class List<T> implements Iterable<T> {
 
     /**
      * Take a certain number of elements from the front of a List.
-     * 
+     *
      * If the amount is 0, and empty list is returned.
-     * 
+     *
      * If the list has less than the amount taken, the entire list is taken.
-     * 
+     *
      * @param amount the number of elements to take from the front of the list
      */
     public take(amount: number): List<T> {
