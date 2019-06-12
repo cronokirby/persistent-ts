@@ -6,6 +6,10 @@ const EMPTY_NODE = { next: null };
  * List<T> represents an immutable list containing values of type T.
  *
  * This class is implemented as a singly linked-list, with all the caveats involved.
+ * 
+ * This class is best used when many values need to be stored and then consumed
+ * linearly in a first-in-last-out fashion. If direct indexing or quick storing
+ * at the front and back is needed, then a list isn't the best choice.
  *
  * Because a List is Iterable, you can loop over it using `for of` and use the spread operator.
  */
