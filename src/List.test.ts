@@ -1,3 +1,4 @@
+import fc from 'fast-check';
 import List from './List';
 
 test('List.empty isEmpty', () => {
@@ -61,4 +62,28 @@ test('List.drop works', () => {
     const simple = List.of(1, 2, 3);
     expect(simple.drop(3).equals(empty)).toBe(true);
     expect(simple.drop(1).equals(List.of(2, 3))).toBe(true);
+});
+
+test('List.prepend properties', () => {
+    fc.assert(
+        fc.property(fc.array(fc.integer()), data => {
+            const list = List.of(...data);
+            const value = 1;
+            const extra = list.prepend(value);
+            expect(extra.tail().equals(list)).toBe(true);
+            expect(extra.head()).toBe(value);
+        })
+    );
+});
+
+test('List.take properties', () => {
+    const gen = fc.tuple(fc.array(fc.integer()), fc.nat());
+    fc.assert(
+        fc.property(gen, ([items, amount]) => {
+            const list = List.of(items);
+            const arr = Array.from(list.take(amount));
+            arr.push(...list.drop(amount));
+            expect(List.of(...arr).equals(list)).toBe(true);
+        })
+    );
 });
