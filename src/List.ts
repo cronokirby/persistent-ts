@@ -79,14 +79,15 @@ class List<T> implements Iterable<T> {
     /**
      * O(amount) Take a certain number of elements from the front of a List.
      *
-     * If the amount is 0, and empty list is returned.
+     * If the amount is 0, and empty list is returned. Negative numbers are treated
+     * the same way.
      *
      * If the list has less than the amount taken, the entire list is taken.
      *
      * @param amount the number of elements to take from the front of the list
      */
     public take(amount: number): List<T> {
-        if (amount === 0 || !this._node.next) return List.empty();
+        if (amount <= 0 || !this._node.next) return List.empty();
         const base: Node<T> = {
             value: this._node.value,
             next: EMPTY_NODE as Node<T>,
@@ -112,6 +113,8 @@ class List<T> implements Iterable<T> {
      *
      * If `amount` is greater than or equal to the size of the list,
      * an empty list is returned.
+     * 
+     * If `amount` is less than or equal to 0, the list is returned without modification.
      *
      * `l.drop(1)` is always equal to `l.tail()`.
      *
