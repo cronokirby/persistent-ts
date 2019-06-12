@@ -6,7 +6,7 @@ const EMPTY_NODE = { next: null };
  * List<T> represents an immutable list containing values of type T.
  *
  * This class is implemented as a singly linked-list, with all the caveats involved.
- * 
+ *
  * This class is best used when many values need to be stored and then consumed
  * linearly in a first-in-last-out fashion. If direct indexing or quick storing
  * at the front and back is needed, then a list isn't the best choice.
@@ -117,7 +117,7 @@ class List<T> implements Iterable<T> {
      *
      * If `amount` is greater than or equal to the size of the list,
      * an empty list is returned.
-     * 
+     *
      * If `amount` is less than or equal to 0, the list is returned without modification.
      *
      * `l.drop(1)` is always equal to `l.tail()`.
@@ -131,6 +131,38 @@ class List<T> implements Iterable<T> {
             list = list.tail();
         }
         return list;
+    }
+
+    /**
+     * O(Nthis) Concatenate this list and another.
+     * 
+     * This returns a list containing all the elements in `this` followed
+     * by all the elements in `that`.
+     * 
+     * This could be done via `List.of(...this, ...that)` but this would
+     * copy the elements of both lists, whereas this implementation only
+     * needs to copy elements from the first list.
+     * 
+     * @param that the list to append to this list
+     */
+    public concat(that: List<T>) {
+        if (!this._node.next) return that;
+        const base: Node<T> = {
+            value: this._node.value,
+            next: that._node,
+        };
+        let latest = base;
+        let cursor = this._node.next;
+        while (cursor.next) {
+            const next: Node<T> = {
+                value: cursor.value as T,
+                next: that._node,
+            };
+            latest.next = next;
+            latest = next;
+            cursor = cursor.next;
+        }
+        return new List(base);
     }
 
     public *[Symbol.iterator]() {

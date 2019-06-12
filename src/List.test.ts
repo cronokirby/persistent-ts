@@ -76,14 +76,14 @@ test('List.prepend properties', () => {
     );
 });
 
-test('List.take properties', () => {
+test('List can be reassembled from take and drop', () => {
     const gen = fc.tuple(fc.array(fc.integer()), fc.nat());
     fc.assert(
         fc.property(gen, ([items, amount]) => {
             const list = List.of(items);
-            const arr = Array.from(list.take(amount));
-            arr.push(...list.drop(amount));
-            expect(List.of(...arr).equals(list)).toBe(true);
+            const left = list.take(amount);
+            const right = list.drop(amount);
+            expect(left.concat(right).equals(list)).toBe(true);
         })
     );
 });
