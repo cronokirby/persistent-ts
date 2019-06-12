@@ -120,6 +120,7 @@ class List<T> implements Iterable<T> {
     public drop(amount: number): List<T> {
         let list: List<T> = this;
         for (let i = 0; i < amount; ++i) {
+            if (list.isEmpty()) break;
             list = list.tail();
         }
         return list;
