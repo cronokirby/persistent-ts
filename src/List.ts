@@ -1,6 +1,6 @@
-type Node<T> = { empty: true } | { empty: false; value: T; next: Node<T> };
+type Node<T> = { next: null } | { value: T; next: Node<T> };
 // We can share a single empty node between all lists.
-const EMPTY_NODE = { empty: true };
+const EMPTY_NODE = { next: null };
 
 /**
  * List<T> represents an immutable list containing values of type T.
@@ -38,7 +38,7 @@ class List<T> implements Iterable<T> {
      * This is equivalent to checking if a list has no elements.
      */
     public isEmpty(): boolean {
-        return this._node.empty;
+        return !this._node.next;
     }
 
     /**
@@ -47,7 +47,7 @@ class List<T> implements Iterable<T> {
      * @param value the value to add to the front of the list
      */
     public prepend(value: T): List<T> {
-        return new List({ empty: false, value, next: this._node });
+        return new List({ value, next: this._node });
     }
 
     /**
@@ -60,7 +60,7 @@ class List<T> implements Iterable<T> {
      * even if the list isn't empty.
      */
     public head(): T | null {
-        return this._node.empty ? null : this._node.value;
+        return this._node.next ? this._node.value : null;
     }
 
     /**
@@ -73,7 +73,7 @@ class List<T> implements Iterable<T> {
      * `l.tail().prepend(l.head())` will always be `l` for any non-empty list `l`.
      */
     public tail(): List<T> {
-        return this._node.empty ? this : new List(this._node.next);
+        return this._node.next ? new List(this._node.next) : this;
     }
 
     /**
@@ -86,9 +86,8 @@ class List<T> implements Iterable<T> {
      * @param amount the number of elements to take from the front of the list
      */
     public take(amount: number): List<T> {
-        if (amount === 0 || this._node.empty) return List.empty();
+        if (amount === 0 || !this._node.next) return List.empty();
         const base: Node<T> = {
-            empty: false,
             value: this._node.value,
             next: EMPTY_NODE as Node<T>,
         };
@@ -98,7 +97,6 @@ class List<T> implements Iterable<T> {
             // We check specifically against empty in case a value is null inside a list
             if (list.isEmpty()) break;
             const next: Node<T> = {
-                empty: false,
                 value: list.head() as T,
                 next: EMPTY_NODE as Node<T>,
             };
@@ -129,7 +127,7 @@ class List<T> implements Iterable<T> {
 
     public *[Symbol.iterator]() {
         let node = this._node;
-        while (!node.empty) {
+        while (node.next) {
             yield node.value;
             node = node.next;
         }
@@ -146,13 +144,13 @@ class List<T> implements Iterable<T> {
     public equals(that: List<T>): boolean {
         let thisNode = this._node;
         let thatNode = that._node;
-        while (!thisNode.empty) {
-            if (thatNode.empty) return false;
+        while (thisNode.next) {
+            if (!thatNode.next) return false;
             if (thisNode.value !== thatNode.value) return false;
             thisNode = thisNode.next;
             thatNode = thatNode.next;
         }
-        return thatNode.empty;
+        return !thatNode.next;
     }
 }
 export default List;
