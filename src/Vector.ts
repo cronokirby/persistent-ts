@@ -19,13 +19,15 @@ class Vector<T> {
     }
 
     public set(index: number, value: T): Vector<T> {
-        return this;
+        const values = this._root.leaf ? [...this._root.values] : [];
+        values[index] = value;
+        return new Vector({ leaf: true, values }, this.length);
     }
 
     public append(value: T): Vector<T> {
         const values = this._root.leaf ? [...this._root.values] : [];
         values.push(value);
-        return new Vector({leaf: true, values}, this.length + 1);
+        return new Vector({ leaf: true, values }, this.length + 1);
     }
 }
 export default Vector;

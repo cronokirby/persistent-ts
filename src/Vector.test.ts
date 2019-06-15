@@ -20,3 +20,11 @@ test('Vector.get works', () => {
     expect(empty.get(0)).toBe(null);
     expect(single.get(0)).toBe(element);
 });
+
+test('Vector.set works', () => {
+    const a = 0;
+    const b = 1;
+    const empty = Vector.empty<number>();
+    const single = empty.append(a);
+    expect(single.set(0, b).get(0)).toBe(b);
+});
