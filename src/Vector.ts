@@ -13,7 +13,9 @@ class Vector<T> {
     }
 
     public get(index: number): T | null {
-        return null;
+        if (index < 0 || index >= this.length) return null;
+        if (!this._root.leaf) return null;
+        return this._root.values[index];
     }
 
     public set(index: number, value: T): Vector<T> {
@@ -21,7 +23,9 @@ class Vector<T> {
     }
 
     public append(value: T): Vector<T> {
-        return this;
+        const values = this._root.leaf ? [...this._root.values] : [];
+        values.push(value);
+        return new Vector({leaf: true, values}, this.length + 1);
     }
 }
 export default Vector;
