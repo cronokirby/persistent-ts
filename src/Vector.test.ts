@@ -9,7 +9,19 @@ test('Vector.append increments the length', () => {
     const empty = Vector.empty<number>();
     expect(empty.append(1).length).toBe(1);
     expect(empty.append(1).append(2).length).toBe(2);
-})
+});
+
+test('Vector.append works with many elements', () => {
+    let acc = Vector.empty<number>();
+    const times = 33;
+    for (let i = 0; i < times; ++i) {
+        acc = acc.append(i);
+    }
+    expect(acc.length).toBe(times);
+    for (let i = 0; i < times; ++i) {
+        expect(acc.get(i)).toBe(i);
+    }
+});
 
 test('Vector.get works', () => {
     const element = 1;

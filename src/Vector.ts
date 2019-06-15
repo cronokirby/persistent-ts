@@ -2,6 +2,17 @@ const BIT_WIDTH = 5;
 const BIT_MASK = 0b11111;
 const BRANCH_SIZE = 1 << BIT_WIDTH;
 
+function isFullBranch(length: number) {
+    return (
+        length === 1 << 5 ||
+        length === 1 << 10 ||
+        length === 1 << 15 ||
+        length === 1 << 20 ||
+        length === 1 << 25 ||
+        length === 1 << 30
+    );
+}
+
 type VNode<T> =
     | { leaf: false; nodes: VNode<T>[] }
     | { leaf: true; values: T[] };
@@ -49,6 +60,7 @@ class Vector<T> {
             const subIndex = (index >> shift) & BIT_MASK;
             const next = copyVNode(cursor.nodes[subIndex]);
             cursor.nodes[subIndex] = next;
+            cursor = next;
             shift -= BIT_WIDTH;
         }
         cursor.values[index & BIT_MASK] = value;
@@ -56,18 +68,30 @@ class Vector<T> {
     }
 
     public append(value: T): Vector<T> {
-        const base = copyVNode(this._root);
+        let base: VNode<T>;
+        let levelShift = this._levelShift;
+        if (isFullBranch(this.length)) {
+            base = { leaf: false, nodes: Array(BRANCH_SIZE) };
+            base.nodes[0] = this._root;
+            for (let i = 1; i < BRANCH_SIZE; ++i) {
+                base.nodes[i] = emptyLeaf();
+            }
+            levelShift += 5;
+        } else {
+            base = copyVNode(this._root);
+        }
         let index = this.length;
-        let shift = this._levelShift;
+        let shift = levelShift;
         let cursor = base;
         while (!cursor.leaf) {
             const subIndex = (index >> shift) & BIT_MASK;
             const next = copyVNode(cursor.nodes[subIndex]);
             cursor.nodes[subIndex] = next;
+            cursor = next;
             shift -= BIT_WIDTH;
         }
-        cursor.values[index] = value;
-        return new Vector(base, this._levelShift, this.length + 1);
+        cursor.values[index & BIT_MASK] = value;
+        return new Vector(base, levelShift, this.length + 1);
     }
 }
 export default Vector;
