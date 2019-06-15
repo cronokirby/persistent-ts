@@ -56,9 +56,17 @@ class Vector<T> {
     }
 
     public append(value: T): Vector<T> {
-        const values = this._root.leaf ? [...this._root.values] : [];
-        values.push(value);
-        const base: VNode<T> = { leaf: true, values };
+        const base = copyVNode(this._root);
+        let index = this.length;
+        let shift = this._levelShift;
+        let cursor = base;
+        while (!cursor.leaf) {
+            const subIndex = (index >> shift) & BIT_MASK;
+            const next = copyVNode(cursor.nodes[subIndex]);
+            cursor.nodes[subIndex] = next;
+            shift -= BIT_WIDTH;
+        }
+        cursor.values[index] = value;
         return new Vector(base, this._levelShift, this.length + 1);
     }
 }
