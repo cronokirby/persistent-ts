@@ -17,10 +17,6 @@ type VNode<T> =
     | { leaf: false; nodes: VNode<T>[] }
     | { leaf: true; values: T[] };
 
-function emptyLeaf<T>(): VNode<T> {
-    return { leaf: true, values: Array(BRANCH_SIZE) };
-}
-
 function copyVNode<T>(vnode: VNode<T>): VNode<T> {
     if (vnode.leaf) {
         return { leaf: true, values: [...vnode.values] };
@@ -37,7 +33,7 @@ class Vector<T> {
     ) {}
 
     public static empty<T>(): Vector<T> {
-        return new Vector(emptyLeaf(), 0, 0);
+        return new Vector({ leaf: true, values: Array(BRANCH_SIZE) }, 0, 0);
     }
 
     public get(index: number): T | null {
@@ -73,9 +69,6 @@ class Vector<T> {
         if (isFullBranch(this.length)) {
             base = { leaf: false, nodes: Array(BRANCH_SIZE) };
             base.nodes[0] = this._root;
-            for (let i = 1; i < BRANCH_SIZE; ++i) {
-                base.nodes[i] = emptyLeaf();
-            }
             levelShift += 5;
         } else {
             base = copyVNode(this._root);
@@ -85,10 +78,19 @@ class Vector<T> {
         let cursor = base;
         while (!cursor.leaf) {
             const subIndex = (index >> shift) & BIT_MASK;
-            const next = copyVNode(cursor.nodes[subIndex]);
+            shift -= BIT_WIDTH;
+            let next = cursor.nodes[subIndex];
+            if (!next) {
+                if (shift === 0) {
+                    next = { leaf: true, values: Array(BRANCH_SIZE) };
+                } else {
+                    next = { leaf: false, nodes: Array(BRANCH_SIZE) };
+                }
+            } else {
+                next = copyVNode(next);
+            }
             cursor.nodes[subIndex] = next;
             cursor = next;
-            shift -= BIT_WIDTH;
         }
         cursor.values[index & BIT_MASK] = value;
         return new Vector(base, levelShift, this.length + 1);

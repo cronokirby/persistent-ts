@@ -13,7 +13,7 @@ test('Vector.append increments the length', () => {
 
 test('Vector.append works with many elements', () => {
     let acc = Vector.empty<number>();
-    const times = 33;
+    const times = 1025;
     for (let i = 0; i < times; ++i) {
         acc = acc.append(i);
     }
