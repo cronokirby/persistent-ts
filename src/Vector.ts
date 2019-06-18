@@ -41,7 +41,7 @@ class Vector<T> {
         let shift = this._levelShift;
         let cursor = this._root;
         while (!cursor.leaf) {
-            cursor = cursor.nodes[(index >> shift) & BIT_MASK];
+            cursor = cursor.nodes[(index >>> shift) & BIT_MASK];
             shift -= BIT_WIDTH;
         }
         return cursor.values[index & BIT_MASK];
@@ -53,7 +53,7 @@ class Vector<T> {
         let shift = this._levelShift;
         let cursor = base;
         while (!cursor.leaf) {
-            const subIndex = (index >> shift) & BIT_MASK;
+            const subIndex = (index >>> shift) & BIT_MASK;
             const next = copyVNode(cursor.nodes[subIndex]);
             cursor.nodes[subIndex] = next;
             cursor = next;
@@ -77,7 +77,7 @@ class Vector<T> {
         let shift = levelShift;
         let cursor = base;
         while (!cursor.leaf) {
-            const subIndex = (index >> shift) & BIT_MASK;
+            const subIndex = (index >>> shift) & BIT_MASK;
             shift -= BIT_WIDTH;
             let next = cursor.nodes[subIndex];
             if (!next) {
