@@ -47,10 +47,20 @@ class Vector<T> {
         public readonly length: number
     ) {}
 
+    /**
+     * Create an empty vector of a certain type.
+     */
     public static empty<T>(): Vector<T> {
         return new Vector(emptyLeaf(), 0, 0);
     }
 
+    /**
+     * O(log_32(N)) Return the value at a certain index, if it exists.
+     *
+     * This returns null if the index is out of the vector's bounds.
+     *
+     * @param index the index to look up
+     */
     public get(index: number): T | null {
         if (index < 0 || index >= this.length) return null;
         let shift = this._levelShift;
@@ -63,6 +73,14 @@ class Vector<T> {
         return cursor.values[index & BIT_MASK];
     }
 
+    /**
+     * O(log_32(N)) Return a new vector with an element set to a new value.
+     *
+     * This will do nothing if the index is negative, or out of the bounds of the vector.
+     *
+     * @param index the index to set
+     * @param value the value to set at that index
+     */
     public set(index: number, value: T): Vector<T> {
         if (index < 0 || index >= this.length) return this;
         const base = copyVNode(this._root);
@@ -80,6 +98,13 @@ class Vector<T> {
         return new Vector(base, this._levelShift, this.length);
     }
 
+    /**
+     * O(log_32(N)) Append a value to the end of this vector.
+     *
+     * This is useful for building up a vector from values.
+     *
+     * @param value the value to push to the end of the vector
+     */
     public append(value: T): Vector<T> {
         let base: VNode<T>;
         let levelShift = this._levelShift;
