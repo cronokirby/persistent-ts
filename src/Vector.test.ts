@@ -40,3 +40,20 @@ test('Vector.set works', () => {
     const single = empty.append(a);
     expect(single.set(0, b).get(0)).toBe(b);
 });
+
+test('Vector.pop works with many elements', () => {
+    let acc = Vector.empty<number>();
+    expect(acc.pop()).toEqual(acc);
+    const times = 1025;
+    for (let i = 0; i < 2 * times; ++i) {
+        acc = acc.append(i);
+    }
+    for (let i = 0; i < times; ++i) {
+        acc = acc.pop();
+    }
+    expect(acc.length).toBe(times);
+    for (let i = 0; i < times; ++i) {
+        const g = acc.get(i);
+        expect(g).toBe(i);
+    }
+})
