@@ -136,7 +136,7 @@ class Vector<T> {
 
     /**
      * Return a new Vector with the last element removed.
-     * 
+     *
      * This does nothing if the Vector contains no elements.
      */
     public pop(): Vector<T> {
@@ -145,7 +145,7 @@ class Vector<T> {
             return new Vector(this._root, this._levelShift, this.length - 1);
         }
         const index = this.length - 1;
-        const popNode = (shift: number, current: VNode<T>): VNode<T> | null => {
+        function popNode(shift: number, current: VNode<T>): VNode<T> | null {
             const subIndex = (index >>> shift) & BIT_MASK;
             if (current.leaf) {
                 // We don't actually need to copy and remove the leaf nodes.
@@ -163,7 +163,7 @@ class Vector<T> {
                 copied.nodes[subIndex] = child;
                 return copied;
             }
-        };
+        }
         // We know that this will never be null
         let newRoot = popNode(this._levelShift, this._root) as VNode<T>;
         let levelShift = this._levelShift;
