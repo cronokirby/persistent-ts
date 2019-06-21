@@ -55,6 +55,17 @@ class Vector<T> implements Iterable<T> {
     }
 
     /**
+     * Create a new vector containing certain elements.
+     *
+     * @param values the values that this vector will contain
+     */
+    public static of<T>(...values: T[]): Vector<T> {
+        let acc = Vector.empty<T>();
+        for (let v of values) acc = acc.append(v);
+        return acc;
+    }
+
+    /**
      * O(log_32(N)) Return the value at a certain index, if it exists.
      *
      * This returns null if the index is out of the vector's bounds.
