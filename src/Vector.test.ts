@@ -1,3 +1,4 @@
+import fc from 'fast-check';
 import Vector from './Vector';
 
 test('Vector.empty has a length of 0', () => {
@@ -56,4 +57,15 @@ test('Vector.pop works with many elements', () => {
         const g = acc.get(i);
         expect(g).toBe(i);
     }
-})
+});
+
+test('A Vector created from an array will spread to the same array', () => {
+    fc.assert(
+        fc.property(fc.array(fc.integer()), data => {
+            let acc = Vector.empty<number>();
+            for (let d of data) acc = acc.append(d);
+            const arr = [...acc];
+            expect(arr).toEqual(data);
+        })
+    );
+});

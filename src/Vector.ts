@@ -40,7 +40,7 @@ function copyVNode<T>(vnode: VNode<T>): VNode<T> {
     }
 }
 
-class Vector<T> {
+class Vector<T> implements Iterable<T> {
     private constructor(
         private readonly _root: VNode<T>,
         private readonly _levelShift: number,
@@ -153,9 +153,8 @@ class Vector<T> {
                 // a needless copy everytime.
                 return subIndex === 0 ? null : current;
             }
-            const child = popNode(shift - BIT_WIDTH, current.nodes[
-                subIndex
-            ] as VNode<T>);
+            const next = current.nodes[subIndex] as VNode<T>;
+            const child = popNode(shift - BIT_WIDTH, next);
             if (subIndex === 0 && !child) {
                 return null;
             } else {
@@ -172,6 +171,26 @@ class Vector<T> {
             levelShift -= BIT_WIDTH;
         }
         return new Vector(newRoot, levelShift, this.length - 1);
+    }
+
+    public *[Symbol.iterator]() {
+        let toYield = this.length;
+        function* iterNode(node: VNode<T>) {
+            if (node.leaf) {
+                for (let v of node.values) {
+                    if (toYield <= 0) break;
+                    yield v;
+                    --toYield;
+                }
+            } else {
+                for (let next of node.nodes) {
+                    // This check also assures us that the link won't be null
+                    if (toYield <= 0) break;
+                    yield* iterNode(next as VNode<T>);
+                }
+            }
+        }
+        yield* iterNode(this._root);
     }
 }
 export default Vector;
