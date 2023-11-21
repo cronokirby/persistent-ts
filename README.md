@@ -30,7 +30,7 @@ List.empty<number>();
 List.of(1, 2, 3, 4);
 
 // (1, 2)
-List.of(1).prepend(2);
+List.of(2).prepend(1);
 
 // 1
 List.of(1, 2, 3).head();
